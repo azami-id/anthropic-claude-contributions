@@ -1,75 +1,124 @@
 # Anthropic Claude Contributions
 
-This repository is a public contribution workspace for experiments, fixes, documentation, and improvements related to Claude and Anthropic tooling.
+![CI](https://github.com/azami-id/anthropic-claude-contributions/actions/workflows/ci.yml/badge.svg)
+![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-Apache%202.0-green)
 
-## Project goal
+A lightweight Python toolkit for building Claude-powered applications with a clean, minimal, and production-minded API.
 
-This repo is intended to host contribution-oriented work around Claude, including:
+This repository is designed as a practical foundation for:
 
-- bug fixes
-- feature experiments
-- documentation improvements
-- examples and integrations
-- tooling around Anthropic APIs and models
+- Claude API clients
+- prompt composition helpers
+- environment-based configuration
+- reusable AI workflow utilities
+- contributor-friendly open-source experimentation
 
-## Repository ownership
+## Why this project exists
 
-This repository is publicly visible and is owned by the GitHub account `azami-id`.
+Many Python integrations with Claude start from scratch. This project gives you a simple and readable starting point to:
 
-The owner is the contributor and maintainer of this project. For GitHub-based tooling or AI agents, repository ownership and collaborator permissions are what signal contribution status, not the contents of a README alone.
+- initialize a Claude client quickly
+- keep prompt-building logic clean and reusable
+- manage model and token settings with environment variables
+- structure a small Python package in a maintainable way
 
-## Real Anthropic contribution path
+## Installation
 
-A public repo in your account does not make you an official contributor to Anthropic projects. For a real contribution to Anthropic, the valid path is:
-
-1. Fork the official repository
-2. Create a feature branch in your fork
-3. Make a focused change
-4. Run the project tests
-5. Open a pull request to the official Anthropic repository
-
-The official repository we validated is:
-
-- `https://github.com/anthropics/anthropic-sdk-python`
-
-### Recommended workflow
+For local development:
 
 ```bash
-git clone https://github.com/<your-user>/anthropic-sdk-python.git
-cd anthropic-sdk-python
-git remote add upstream https://github.com/anthropics/anthropic-sdk-python.git
-git fetch upstream
-git checkout -b fix/my-contribution
-```
-
-Then make your change and validate:
-
-```bash
+git clone https://github.com/azami-id/anthropic-claude-contributions.git
+cd anthropic-claude-contributions
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-pip install -r requirements.txt
-pytest -q
+pip install -e ".[dev]"
 ```
 
-When ready:
+## Quick start
+
+```python
+from anthropic_claude_contributions import ClaudeClient, ClaudeClientConfig
+
+config = ClaudeClientConfig(
+    model="claude-3-5-sonnet-20241022",
+    api_key="your_api_key_here",
+    max_tokens=500,
+)
+
+client = ClaudeClient(config)
+response = client.create_message(
+    prompt="Summarize this issue in three bullet points.",
+    system_prompt="You are a concise technical assistant.",
+)
+
+print(client.extract_text(response))
+```
+
+## Environment variables
+
+Create a `.env` file or copy `.env.example`:
 
 ```bash
-git add .
-git commit -m "fix: improve X"
-git push origin fix/my-contribution
+cp .env.example .env
 ```
 
-Then open the PR against `anthropics/anthropic-sdk-python`.
+Example values:
+
+```bash
+ANTHROPIC_API_KEY=your_api_key_here
+ANTHROPIC_MODEL=claude-3-5-sonnet-20241022
+ANTHROPIC_MAX_TOKENS=1024
+```
+
+## Project structure
+
+```text
+.
+├── .github/
+│   └── workflows/
+├── examples/
+├── src/
+│   └── anthropic_claude_contributions/
+├── tests/
+├── .env.example
+├── .gitignore
+├── CHANGELOG.md
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+├── SECURITY.md
+├── pyproject.toml
+└── pytest.ini
+```
+
+## Features
+
+- minimal Anthropic client wrapper
+- prompt builder for reusable interactions
+- environment-based configuration
+- Python packaging via `pyproject.toml`
+- CI validation across Python 3.10, 3.11, and 3.12
+- contribution-friendly structure
+
+## Roadmap
+
+- add more workflow helpers
+- provide structured output parsing utilities
+- add example integrations for docs, summarization, and Q&A
+- improve typing, validation, and error handling
+- add release automation and semantic versioning
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening issues or pull requests.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+
+## Security
+
+Please review [SECURITY.md](SECURITY.md) before reporting vulnerabilities or handling secrets.
 
 ## License
 
 This project is licensed under the Apache License 2.0.
-
-## Notes for AI tooling and agents
-
-If an AI agent or GitHub assistant needs to know that the repository is maintained by a contributor, it should use the authenticated GitHub account context and repository permission metadata rather than just reading file content.
